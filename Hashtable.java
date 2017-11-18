@@ -1,16 +1,17 @@
 /**
  * Hashtable.java
+ * 
  * @author Alex Wang
  *
  */
 public class Hashtable {
-	
+
 	private HashNode[] table;
-	
+
 	/**
 	 * Constructor
 	 */
-	public Hashtable(){
+	public Hashtable() {
 		table = new HashNode[10];
 	}
 
@@ -20,19 +21,21 @@ public class Hashtable {
 	 * existing key/value pair, the Hashtable instance replaces the stored value
 	 * with the argument value.
 	 * 
-	 * @param key key given to be added
-	 * @param val value given to be added
+	 * @param key
+	 *            key given to be added
+	 * @param val
+	 *            value given to be added
 	 */
 	public void put(String key, String val) {
 		int index = Math.abs(key.hashCode()) % table.length;
 
 		HashNode toAdd = new HashNode(key, val);
 		HashNode curr = table[index];
-		if(curr != null){
+		if (curr != null) {
 			toAdd.setNext(curr);
 		}
 		table[index] = toAdd;
-		
+
 	}
 
 	/**
@@ -44,20 +47,20 @@ public class Hashtable {
 	 */
 	public String get(String key) {
 		String gotVal = null;
-		
-		if(containsKey(key)){
+
+		if (containsKey(key)) {
 			int index = Math.abs(key.hashCode()) % table.length;
 			HashNode curr = table[index];
 
-			while(curr != null){
-				if (curr.getKey().equals(key)){
+			while (curr != null) {
+				if (curr.getKey().equals(key)) {
 					gotVal = curr.getValue();
 					break;
 				}
 				curr = curr.next;
 			}
 		}
-		return gotVal; 
+		return gotVal;
 	}
 
 	/**
@@ -69,33 +72,32 @@ public class Hashtable {
 	 * @return the value of removed node
 	 */
 	public String remove(String key) {
-		String removedVal = null; 
-		if(containsKey(key)){
+		String removedVal = null;
+		if (containsKey(key)) {
 			int index = Math.abs(key.hashCode()) % table.length;
 
 			HashNode curr = table[index];
-			while(curr != null){
-				if(curr.getKey().equals(key)){ // removing first node in the slot
+			while (curr != null) {
+				if (curr.getKey().equals(key)) { // removing first node in the
+					// slot
 					removedVal = curr.getValue();
 					table[index] = curr.next;
-					
+
 					break;
-				}
-				else if (curr.next!= null && curr.next.getKey().equals(key)){
+				} else if (curr.next != null && curr.next.getKey().equals(key)) {
 					removedVal = curr.next.getValue();
-					if(curr.next.next!= null){
+					if (curr.next.next != null) {
 						curr.next = curr.next.next;
-					}
-					else{
+					} else {
 						curr.next = null;
 					}
-					
+
 					break;
 				}
 				curr = curr.next;
 			}
 		}
-		return removedVal; 
+		return removedVal;
 	}
 
 	/**
@@ -109,18 +111,17 @@ public class Hashtable {
 	public boolean containsKey(String key) {
 		boolean contains = false;
 		int index = Math.abs(key.hashCode()) % table.length;
-		
+
 		HashNode curr = table[index];
-		while(curr != null){
-			if(curr.getKey().equals(key)){
+		while (curr != null) {
+			if (curr.getKey().equals(key)) {
 				contains = true;
 				break;
 			}
-			curr= curr.next;
+			curr = curr.next;
 		}
-		
+
 		return contains;
 	}
 
-	
 }
